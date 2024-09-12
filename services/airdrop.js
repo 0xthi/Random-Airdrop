@@ -21,10 +21,14 @@ const tokenContract = new ethers.Contract(tokenAddress, tokenABI, wallet);
 
 const sendTokens = async () => {
   for (const address of addresses) {
-    const amount = Math.floor(Math.random() * 999) + 1; // Random number between 1 and 999
-    const tx = await tokenContract.transfer(address, ethers.utils.parseUnits(amount.toString(), 18));
-    await tx.wait();
-    console.log(`Sent ${amount} tokens to ${address}`);
+    try {
+      const amount = Math.floor(Math.random() * 999) + 1; // Random number between 1 and 999
+      const tx = await tokenContract.transfer(address, ethers.utils.parseUnits(amount.toString(), 18));
+      await tx.wait();
+      console.log(`Airdropped ${amount} tokens to ${address}`);
+    } catch (error) {
+      console.error(`Error sending tokens to ${address}:`, error);
+    }
   }
 };
 
