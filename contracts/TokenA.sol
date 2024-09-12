@@ -18,4 +18,12 @@ contract TokenA is ERC20, Ownable, ERC20Permit {
     function mint(address to, uint256 amount) public onlyOwner {
         _mint(to, amount);
     }
+
+    function batchTransfer(address[] memory recipients, uint256[] memory amounts) public returns (bool) {
+        require(recipients.length == amounts.length, "Arrays must be of equal length");
+        for (uint256 i = 0; i < recipients.length; i++) {
+            transfer(recipients[i], amounts[i]);
+        }
+        return true;
+    }
 }
